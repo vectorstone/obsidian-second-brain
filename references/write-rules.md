@@ -181,7 +181,7 @@ For kanban boards: find the correct column heading, insert the new item above th
 
 Before creating any note:
 ```
-search_files(vault_root, "keyword from title")
+search(query="keyword from title")
 ```
 
 If a match is found:

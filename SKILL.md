@@ -21,24 +21,32 @@ description: >
 
 ## Quick Start
 
+### 0. Verify MCP is available
+
+This skill requires the `mcp-obsidian` MCP server to be running with your vault path configured. If vault tools (`get_file_contents`, `search`, etc.) are unavailable, stop immediately and tell the user:
+
+> "The obsidian-vault MCP server isn't connected. Configure it in your Claude settings and restart, then try again."
+
+Do not attempt to improvise vault operations without MCP tools.
+
 ### 1. First time in a vault → read `_CLAUDE.md`
 
 Before doing anything in a vault, check if `_CLAUDE.md` exists at the vault root:
 
 ```
-read_text_file("/path/to/vault/_CLAUDE.md")
+get_file_contents("_CLAUDE.md")
 ```
 
-If it exists: follow its rules exactly — it overrides defaults below.
+If it exists: follow its rules exactly — they override the defaults in this skill. Where `_CLAUDE.md` is silent, fall back to the defaults below.
 If it doesn't exist: use the defaults in this skill, then offer to create one.
 
 ### 2. First time with a new user → run discovery
 
 ```
-directory_tree(vault_root, excludePatterns=[".obsidian", ".trash", "_archived"])
+list_files_in_vault()
 ```
 
-Scan the structure to understand: folder names, template locations, naming conventions, frontmatter patterns. Read 2–3 existing notes to calibrate writing style before creating anything new.
+Scan the structure to understand: folder names, template locations, naming conventions, frontmatter patterns. Then read 2–3 existing notes with `get_file_contents(path)` to calibrate writing style before creating anything new.
 
 ### 3. Bootstrap a new vault
 
@@ -46,6 +54,8 @@ If the user has no vault yet, run:
 ```bash
 python scripts/bootstrap_vault.py --path ~/path/to/vault --name "Your Name"
 ```
+
+Then configure `mcp-obsidian` to point at the new vault path and restart Claude.
 
 This creates a complete production-ready vault structure with all templates, a Home dashboard, kanban boards, and a pre-filled `_CLAUDE.md`. See `scripts/bootstrap_vault.py`.
 
@@ -71,7 +81,7 @@ Always propagate. Never create a single orphaned note.
 ### Search before creating
 Before creating any new note, search for an existing one:
 ```
-search_files(vault_root, pattern="keyword")
+search(query="keyword from title")
 ```
 Duplicate notes are vault rot. Merge or update instead of creating new.
 
@@ -110,6 +120,8 @@ See `references/write-rules.md` for the complete guide. Summary:
 This is the most important concept in this skill.
 
 `_CLAUDE.md` lives at the vault root and persists Claude's operating rules across every session and every surface (Claude Desktop, Claude Code, VS Code, terminal). Without it, Claude has to re-learn your vault conventions every conversation.
+
+**Precedence rule:** `_CLAUDE.md` wins on all vault-specific rules (folder names, naming conventions, frontmatter fields, auto-save behavior, private folders). The defaults in this skill file apply only where `_CLAUDE.md` is silent. Never let skill defaults override an explicit `_CLAUDE.md` rule.
 
 **What it contains:**
 - Your vault's folder map and what each folder is for
@@ -158,6 +170,227 @@ Completed items move to the `## ✅ Done` column with a strikethrough: `- [x] ~~
 python scripts/vault_health.py --path ~/path/to/vault
 ```
 Reports: duplicate notes, orphaned files (no incoming links), stale tasks (overdue), empty folders, broken links, notes missing frontmatter.
+
+Proactively suggest running this when the user says the vault feels messy, notes are hard to find, they mention duplicates, or they haven't mentioned a health check in a long time. Offer: *"Want me to run a vault health check?"*
+
+---
+
+## Commands
+
+These slash commands can be used in any Claude surface. Each one is smart — it reads context, searches before writing, and propagates everywhere changes belong.
+
+**Name matching:** If a name argument has a typo or is approximate, search the vault for the closest match, show what was found, and confirm with the user before proceeding. Never silently create a note with a misspelled name.
+
+---
+
+### `/obsidian-save`
+
+**The master save command.** Reads the entire conversation and extracts everything worth preserving.
+
+Steps:
+1. Scan the conversation and identify all vault-worthy items: decisions, tasks, people mentioned, projects started, ideas, learnings, deals, mentions/shoutouts
+2. For each item, determine the correct note type and target folder
+3. Search for existing notes before creating anything new — merge/update where possible
+4. Write or update each note with correct frontmatter
+5. Propagate: update boards, daily note, linked people/project notes
+6. Report back: a clean list of what was saved and where
+
+Do not ask for guidance on where to save things — infer it. Only ask if something is genuinely ambiguous (e.g. a person mentioned with no context on who they are).
+
+---
+
+### `/obsidian-daily`
+
+**Creates or updates today's daily note.**
+
+Steps:
+1. Check if `Daily/YYYY-MM-DD.md` exists for today
+2. If not: read `Templates/Daily Note.md`, fill in date fields, create the file
+3. Scan the current conversation for anything relevant to today: tasks in progress, people mentioned, decisions made, what's being worked on
+4. Pre-fill or update the note's sections with that context
+5. If the note already exists, inject new content into the right sections rather than overwriting
+
+Return the path of the daily note when done.
+
+---
+
+### `/obsidian-log`
+
+**Logs a work or dev session to the vault.**
+
+Steps:
+1. Infer the project from conversation context — search the vault if needed to find the right project note
+2. Read `Templates/Dev Log.md` (or `Templates/Work Log.md` if it exists)
+3. Fill in: date, project, what was worked on, problems encountered, decisions made, next steps — all inferred from the conversation
+4. Save to `Dev Logs/YYYY-MM-DD — Project Name.md`
+5. Inject a link into the project note's Recent Activity section
+6. Inject a link into today's daily note Work section
+
+---
+
+### `/obsidian-task [description]`
+
+**Adds a task to the vault and the right kanban board.**
+
+Steps:
+1. Parse the task from the argument or from recent conversation context if no argument given
+2. Infer: priority (🔴/🟡/🟢), due date, linked project, linked person
+3. Search for the right kanban board — use `_CLAUDE.md` board list or search `Boards/`
+4. Add the task card to the correct column (`📋 This Week` or `📥 Backlog` depending on due date)
+5. Create a task note in `Tasks/` if the task is substantial (more than a one-liner)
+6. Link the task from the relevant project note and today's daily note
+
+---
+
+### `/obsidian-person [name]`
+
+**Creates or updates a person note.**
+
+Steps:
+1. Search the vault for an existing note matching the name (fuzzy — handle typos and partial names)
+2. If found: confirm with user, then update with new info from conversation
+3. If not found: create `People/Full Name.md` with full frontmatter schema
+4. Fill in everything inferable from the conversation: role, company, context, relationship strength, last interaction date
+5. Log the interaction in today's daily note
+6. If a People index file exists, add or update the entry there
+
+---
+
+### `/obsidian-decide [optional: topic]`
+
+**Extracts and logs decisions from the conversation.**
+
+Steps:
+1. Scan the conversation for decisions made — look for conclusions, choices, commitments, direction changes
+2. If a topic argument is given, focus on decisions related to that topic
+3. Find the relevant project note(s) — search if needed
+4. Append each decision to the project note's `## Key Decisions` section with date
+5. Log a summary in today's daily note
+6. If a decision affects multiple projects, log it in all of them
+
+---
+
+### `/obsidian-capture [optional: idea text]`
+
+**Quick idea capture with zero friction.**
+
+Steps:
+1. Take the argument as the idea, or pull the most recent idea/thought from the conversation
+2. Search `Ideas/` for a related existing note — if found, append to it
+3. If new: create `Ideas/Title.md` with minimal frontmatter (`date`, `tags: [idea]`)
+4. Write the idea with any supporting context from the conversation
+5. Add a brief mention in today's daily note under an Ideas or Captures section
+
+---
+
+### `/obsidian-find [query]`
+
+**Smart vault search.**
+
+Steps:
+1. Run `search(query="...")` with the provided query
+2. Also try variations if results are sparse (synonyms, related terms)
+3. Return results with context: note title, folder, a relevant excerpt, and what type of note it is
+4. If results are ambiguous, group them by type (people, projects, tasks, etc.)
+5. Offer to open, update, or link any of the found notes
+
+Do not just return filenames — return enough context for the user to act.
+
+---
+
+### `/obsidian-recap [today|week|month]`
+
+**Summarizes a time period from the vault.**
+
+Steps:
+1. Determine the date range from the argument (default: `week` if not specified)
+2. Read all daily notes in that range using `list_files_in_dir("Daily/")` + `get_file_contents(path)` for each
+3. Also read any dev logs, completed tasks, and project updates from that period
+4. Synthesize: what was worked on, decisions made, people interacted with, tasks completed, ideas captured
+5. Present as a clean narrative summary — not a raw dump of note content
+
+---
+
+### `/obsidian-review`
+
+**Generates a structured weekly or monthly review note.**
+
+Steps:
+1. Ask: weekly or monthly? (or infer from context)
+2. Read daily notes and dev logs for the period
+3. Read active projects and check for status changes
+4. Read completed tasks from kanban boards
+5. Draft a review note using `Templates/Review.md` if it exists, otherwise use a standard structure:
+   - What I accomplished
+   - Key decisions made
+   - People I worked with
+   - What I learned
+   - What to carry forward
+6. Save to `Reviews/YYYY-MM-DD — Weekly Review.md` (or Monthly)
+7. Link from the last daily note of the period
+
+---
+
+### `/obsidian-board [optional: board name]`
+
+**Shows or updates a kanban board.**
+
+Steps:
+1. If a board name is given, search `Boards/` for it (fuzzy match)
+2. If no name given, list available boards and ask which one
+3. Read and display the current board state: columns, item counts, overdue items (past `@{date}`)
+4. Ask if the user wants to make updates — if yes, infer changes from conversation context
+5. Move completed items to ✅ Done with strikethrough, add new items in the right column
+6. Flag any items that are overdue or have been in the same column for more than a week
+
+---
+
+### `/obsidian-project [name]`
+
+**Creates or updates a project note.**
+
+Steps:
+1. Search the vault for an existing project matching the name (fuzzy — handle typos)
+2. If found: show what was found, confirm, then update with new info from conversation
+3. If not found: create `Projects/Project Name.md` with full frontmatter schema (`date`, `tags: [project]`, `status: active`, `job`)
+4. Fill in everything inferable from the conversation: description, goals, key people, current status
+5. Add a card to the relevant kanban board in the `📥 Backlog` or `🔨 In Progress` column
+6. Link from today's daily note
+
+---
+
+### `/obsidian-health`
+
+**Runs a vault health check and summarizes findings.**
+
+Steps:
+1. Run: `python scripts/vault_health.py --path ~/path/to/vault --json`
+2. Parse the JSON output
+3. Group findings by severity:
+   - 🔴 Critical: unfilled template syntax, broken links
+   - 🟡 Warning: duplicates, stale tasks, missing frontmatter
+   - ⚪ Info: orphaned notes, empty folders
+4. Present a clean summary with counts per category
+5. For safe fixes (missing frontmatter, obvious duplicates), offer to fix them automatically
+6. For destructive fixes (archiving, merging), list them and ask for explicit confirmation before touching anything
+
+---
+
+### `/obsidian-init`
+
+**Bootstraps `_CLAUDE.md` for the vault — the operating manual.**
+
+Steps:
+1. Call `list_files_in_vault()` to map the full structure
+2. Read `Home.md` or equivalent dashboard if it exists
+3. Read 2–3 templates from `Templates/`
+4. Read each kanban board in `Boards/`
+5. Read a sample of existing notes (one per major folder) to understand naming conventions and frontmatter patterns
+6. Generate a complete `_CLAUDE.md` using the template in `references/claude-md-template.md`, filled with real values from the vault
+7. Write it to `_CLAUDE.md` at the vault root via `append_content("_CLAUDE.md", content)`
+8. Confirm what was written and tell the user to restart their Claude session so the new file takes effect
+
+If `_CLAUDE.md` already exists: show a diff of what would change and ask before overwriting.
 
 ---
 

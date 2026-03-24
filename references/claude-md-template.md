@@ -9,12 +9,12 @@ It gives every Claude surface (Desktop, Code, VS Code, terminal) the same operat
 ## How to Generate It
 
 When a user asks Claude to create their `_CLAUDE.md`, Claude should:
-1. Run `directory_tree` on the vault root
-2. Read `Home.md` (or equivalent dashboard) if it exists
-3. Read 2–3 templates from the `Templates/` folder
-4. Read the current kanban boards
+1. Call `list_files_in_vault()` to map the vault structure
+2. Call `get_file_contents("Home.md")` (or equivalent dashboard) if it exists
+3. Call `get_file_contents(path)` on 2–3 templates from the `Templates/` folder
+4. Call `get_file_contents(path)` on the current kanban boards
 5. Fill in the template below with discovered values
-6. Write the file to `{vault_root}/_CLAUDE.md`
+6. Call `append_content("_CLAUDE.md", content)` to write the file to the vault root
 
 ---
 
