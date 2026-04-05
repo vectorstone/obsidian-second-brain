@@ -1,5 +1,5 @@
 ---
-description: Scan your vault and generate a _CLAUDE.md operating manual
+description: Scan your vault and generate a _CLAUDE.md operating manual, index.md catalog, and log.md
 ---
 
 Use the obsidian-second-brain skill. Execute `/obsidian-init`:
@@ -12,7 +12,19 @@ Use the obsidian-second-brain skill. Execute `/obsidian-init`:
    - **Samples agent**: read one existing note per major folder to capture naming conventions and frontmatter patterns
 3. Merge all agent results into a complete picture of the vault
 4. Generate a complete `_CLAUDE.md` using the template in `~/.claude/skills/obsidian-second-brain/references/claude-md-template.md`, filled with real values from the vault
-5. Write it to `_CLAUDE.md` at the vault root via `append_content("_CLAUDE.md", content)`
-6. Confirm what was written and tell the user to restart their Claude session so the new file takes effect
+5. Generate `index.md` at the vault root — a catalog of all pages organized by category:
+   - List every note in the vault grouped by folder (Projects, People, Ideas, etc.)
+   - Include a one-line description for each note (from frontmatter or first paragraph)
+   - Claude reads this file FIRST when navigating the vault — cheaper and faster than searching
+   - Format: `- [[Note Name]] — brief description`
+6. Generate `log.md` at the vault root — a chronological activity log:
+   - Start with a header explaining the format
+   - Add an entry for this init: `## [YYYY-MM-DD] init | Vault initialized with _CLAUDE.md, index.md, log.md`
+   - Future commands append to this file: every ingest, save, health check, and structural change gets a timestamped entry
+   - Format: `## [YYYY-MM-DD] action | Description`
+7. Write all three files to the vault root
+8. Confirm what was written and tell the user to restart their Claude session so the new file takes effect
 
 If `_CLAUDE.md` already exists: show a diff of what would change and ask before overwriting.
+If `index.md` already exists: regenerate it (it's always a fresh catalog of current vault state).
+If `log.md` already exists: do NOT overwrite — only append the init entry.

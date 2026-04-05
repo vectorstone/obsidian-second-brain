@@ -11,7 +11,7 @@
 <p align="center">
   <strong>Turn your Obsidian vault into a personal AI operating system.</strong>
   <br />
-  <em>19 commands &middot; 4 thinking tools &middot; 4 scheduled agents &middot; 1 background agent</em>
+  <em>20 commands &middot; 4 thinking tools &middot; 4 scheduled agents &middot; 1 background agent</em>
   <br /><br />
   <a href="#install">Install</a> &middot;
   <a href="#the-three-layers">Features</a> &middot;
@@ -131,7 +131,8 @@ This skill solves both problems at once. Your vault becomes Claude's memory, and
 | `/obsidian-board [name]` | Shows kanban state, flags overdue items |
 | `/obsidian-project [name]` | Creates or updates a project note with board and daily links |
 | `/obsidian-health` | Vault audit — duplicates, orphans, broken links, stale tasks |
-| `/obsidian-init` | Scans your vault and generates the `_CLAUDE.md` operating manual |
+| `/obsidian-init` | Scans your vault and generates `_CLAUDE.md`, `index.md`, and `log.md` |
+| `/obsidian-ingest` | Ingests a source (article, PDF, transcript, video) — one source touches 5-15 vault pages |
 
 Every command searches before creating (no duplicates), propagates to every linked note (no orphans), and handles typos with fuzzy matching.
 
@@ -242,6 +243,7 @@ Complex commands spawn parallel subagents — one per task group — and merge r
 | `/obsidian-health` | Links + Duplicates + Frontmatter + Staleness + Orphans |
 | `/obsidian-recap` | One agent per daily note in the range |
 | `/obsidian-init` | Dashboard + Templates + Boards + Samples |
+| `/obsidian-ingest` | People + Projects + Ideas + Knowledge |
 
 ---
 

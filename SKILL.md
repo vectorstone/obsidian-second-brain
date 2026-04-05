@@ -75,8 +75,25 @@ Every write operation must ask: *where else does this belong?*
 | A deal update | Side Biz / Deals kanban, Dashboard totals |
 | A decision made | Project note (Key Decisions), daily note |
 | A mention/shoutout | Mentions Log, person's note, daily note |
+| Any vault write | `log.md` (append timestamped entry), `index.md` (update if new note created) |
 
 Always propagate. Never create a single orphaned note.
+
+### Maintain `index.md` and `log.md`
+Two structural files that keep the vault navigable and auditable:
+
+- **`index.md`** — A catalog of all vault pages organized by category. Claude reads this FIRST when navigating the vault instead of searching — faster and cheaper on tokens. Update it whenever a new note is created or deleted. Format: `- [[Note Name]] — brief description` grouped under folder headings.
+
+- **`log.md`** — An append-only chronological log of every vault operation. Every save, ingest, health check, and structural change gets a timestamped entry. Never delete or rewrite entries — only append. Format: `## [YYYY-MM-DD] action | Description`
+
+### Two-Output Rule
+Every interaction that produces insight must generate two outputs:
+1. **The answer** — what the user sees in the conversation
+2. **A vault update** — the insight filed back into the relevant note(s)
+
+This applies to all thinking tools (`/obsidian-challenge`, `/obsidian-emerge`, `/obsidian-connect`, `/obsidian-graduate`) and any query where Claude synthesizes information from the vault. The vault should get smarter after every interaction, not just when the user explicitly asks to save.
+
+If a challenge analysis reveals a contradiction, file it in the project note's Key Decisions section. If an emerge scan surfaces a pattern, save it to Ideas/. If a connect exercise produces a new concept, create a note for it. The user gets the answer AND the vault compounds.
 
 ### Search before creating
 Before creating any new note, search for an existing one:
@@ -404,6 +421,29 @@ Steps:
 6. Confirm what was written and tell the user to restart their Claude session so the new file takes effect
 
 If `_CLAUDE.md` already exists: show a diff of what would change and ask before overwriting.
+
+---
+
+### `/obsidian-ingest`
+
+**Ingests a source into the vault — one source touches many pages.**
+
+Steps:
+1. Accept a URL, file path, or pasted text as the source
+2. Classify the source type before full read: article, PDF, transcript, video, or raw text
+3. Read or fetch the full source content
+4. Extract: entities (people, companies, tools), concepts, claims, action items, notable quotes
+5. Save the raw source to `Knowledge/YYYY-MM-DD — Source Title.md` with full summary and source link
+6. Spawn parallel subagents to distribute knowledge across the vault:
+   - **People agent**: create or update People/ notes for each person mentioned
+   - **Projects agent**: update existing project notes with new findings
+   - **Ideas agent**: create or append to Ideas/ for new concepts
+   - **Knowledge agent**: create or update Knowledge/ notes for factual claims and frameworks
+7. Update `index.md` with all newly created notes
+8. Append to `log.md`: `## [YYYY-MM-DD] ingest | Source Title (type) — X created, Y updated`
+9. Update today's daily note with an ingest summary
+
+A single ingest should touch 5-15 files. Compile knowledge once, distribute everywhere.
 
 ---
 

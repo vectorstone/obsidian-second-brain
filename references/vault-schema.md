@@ -5,6 +5,8 @@
 ```
 Your Vault/
 ├── _CLAUDE.md                  ← Claude's operating manual for this vault
+├── index.md                    ← Catalog of all vault pages by category (Claude reads this first)
+├── log.md                      ← Chronological log of every ingest, save, and maintenance pass
 ├── Home.md                     ← Dashboard with dataview queries
 │
 ├── Daily/                      ← Daily notes (one per day)
