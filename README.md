@@ -60,9 +60,11 @@ This skill connects them. Your vault becomes Claude's long-term memory. Claude b
 
 > **You talk. Claude remembers.** Finish a conversation, type `/obsidian-save`. Every decision, person, task, and idea gets saved to the right note — automatically. You do nothing.
 >
-> **You drop a link. Claude learns.** Type `/obsidian-ingest` with a YouTube video, article, or PDF. Claude extracts every person, concept, and insight and distributes them across 5-15 vault pages. One source in, knowledge everywhere.
+> **You drop a link. The vault rewrites itself.** Type `/obsidian-ingest` with a YouTube video, article, or PDF. Claude doesn't just create new pages — it REWRITES existing ones. A person you already have a note on gets updated with new context. A concept that contradicts something in your vault gets resolved. Patterns across sources trigger automatic synthesis pages. One URL in, the vault is smarter — not just bigger.
 >
 > **You ask. Your vault argues back.** Type `/obsidian-challenge`. Claude searches your own history for contradictions, past failures, and reversed decisions — then pushes back with your own words. This isn't generic AI. This is your vault holding you accountable.
+>
+> **The vault maintains its own truth.** Type `/obsidian-reconcile`. Claude scans every page for contradictions — claims that conflict, facts that are outdated, decisions that were reversed but never updated — and resolves them. The vault never contains two pages that disagree without knowing they disagree.
 >
 > **You sleep. Claude maintains.** Scheduled agents create your morning briefing, close out your day, write your weekly review, and audit your vault for rot. A background agent fires after every compaction and silently updates your vault while you keep working.
 
@@ -397,7 +399,7 @@ Creates a complete vault with folders, templates, kanban boards, a Home dashboar
 ```
 obsidian-second-brain/
 +-- SKILL.md                        # Core instructions for Claude
-+-- commands/                       # 21 slash commands
++-- commands/                       # 22 slash commands
 +-- hooks/                          # Background agent hook
 +-- references/
 |   +-- vault-schema.md             # Folder structure + frontmatter specs
@@ -417,7 +419,7 @@ obsidian-second-brain/
 
 This skill inverts that. You think, work, and talk. Claude handles the memory. And then it uses that memory to make you think better.
 
-Every note you write gives Claude more context. Every decision you log becomes ammunition for `/obsidian-challenge`. Every idea you capture becomes a candidate for `/obsidian-graduate`. Every source you ingest spreads knowledge across 5-15 vault pages. The vault compounds. Not linearly -- exponentially.
+Every note you write gives Claude more context. Every decision you log becomes ammunition for `/obsidian-challenge`. Every idea you capture becomes a candidate for `/obsidian-graduate`. Every source you ingest doesn't just add pages — it rewrites existing ones, resolves contradictions, and synthesizes patterns you never asked for. The vault doesn't grow. It evolves.
 
 Everyone will have access to the same AI models. The differentiator isn't the model. It's having years of interlinked personal writing for the model to work with.
 
