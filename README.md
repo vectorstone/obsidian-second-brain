@@ -35,7 +35,13 @@ You take notes in Obsidian. Hundreds of files. They just sit there. You make the
 ## What Happens When You Install This
 
 **After a meeting:** `/obsidian-save`
-Claude pulls out every decision, person, task, and idea from the conversation and saves each one to the right note. You do nothing.
+Claude pulls out every decision, person, task, and idea and saves each one to the right note. You do nothing.
+
+**You recorded a voice memo:** `/obsidian-ingest meeting.m4a`
+Claude transcribes it with Whisper, identifies speakers, extracts every promise and action item, and distributes across entity pages, task boards, and the daily note.
+
+**You screenshot a whiteboard:** `/obsidian-ingest photo.png`
+Claude reads the image, extracts text and structure, creates concept notes, links to related projects. A photo becomes knowledge.
 
 **You find a great video:** `/obsidian-ingest https://youtube.com/...`
 Claude doesn't summarize into one note. It REWRITES your existing pages. People get updated. Contradictions get resolved. Patterns trigger new synthesis pages. One URL in. The vault is smarter.
@@ -43,8 +49,13 @@ Claude doesn't summarize into one note. It REWRITES your existing pages. People 
 **Before a big decision:** `/obsidian-challenge`
 Claude searches your vault for past failures and reversed decisions on the same topic. Pushes back with your own words. Your vault holds you accountable.
 
-**You do nothing:** The vault still gets smarter.
-A background agent updates it during your sessions. Scheduled agents run morning, night, and weekly. An auto-synthesis engine finds patterns across sources and writes connection pages you never asked for.
+**You want to see the big picture:** `/obsidian-visualize`
+Claude generates a visual canvas of your entire vault. Hub nodes centered, color-coded by type, orphans highlighted. Open it in Obsidian and see the shape of your knowledge.
+
+**You go to sleep:** The nightly agent runs 5 phases — closes the day, reconciles contradictions, synthesizes cross-source patterns, heals orphan notes, and rebuilds the index. You wake up to a smarter vault.
+
+**You start a new day:** `/obsidian-daily`
+Claude pulls your calendar events, overdue tasks, and overnight changes into today's note. Your morning starts informed.
 
 **You never open Obsidian.** Everything happens through Claude.
 
