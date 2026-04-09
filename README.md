@@ -59,7 +59,7 @@ A background agent updates it during your sessions. Scheduled agents run morning
 | Finding patterns | Re-read dozens of notes | `/emerge` finds them for you |
 | Challenging yourself | Nobody pushes back | `/challenge` uses your own history against you |
 | Session continuity | Re-explain every time | `/world` loads full context in 10 seconds |
-| Ingesting content | Read it, forget it | `/ingest` rewrites 5-15 vault pages from 1 source |
+| Ingesting content | Read it, forget it | `/ingest` rewrites 5-15 vault pages from 1 source (URLs, PDFs, audio, screenshots) |
 | Contradictions | You don't know they exist | `/reconcile` resolves them automatically |
 | Synthesis | You connect dots manually | `/synthesize` finds patterns across sources on its own |
 | Sharing vault data | Only Claude can read it | `/export` gives any AI tool a clean snapshot |
@@ -109,7 +109,7 @@ A background agent updates it during your sessions. Scheduled agents run morning
 | Command | What it does |
 |---|---|
 | `/obsidian-save` | Saves everything from the conversation -- decisions, tasks, people, ideas |
-| `/obsidian-ingest` | Drop a URL. The vault REWRITES itself. 5-15 pages touched per source. |
+| `/obsidian-ingest` | Drop a URL, PDF, audio file, or screenshot. The vault REWRITES itself. 5-15 pages touched per source. |
 | `/obsidian-synthesize` | Auto-finds patterns across sources and writes synthesis pages |
 | `/obsidian-reconcile` | Finds contradictions and resolves them. The vault maintains its own truth. |
 | `/obsidian-export` | Clean JSON/markdown snapshot any AI tool can read |

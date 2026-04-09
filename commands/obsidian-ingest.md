@@ -13,6 +13,8 @@ The argument is a URL, file path, or pasted text. If no argument, ask what to in
    - **PDF/document** — extract structure, findings, recommendations
    - **Transcript (meeting/podcast)** — extract speakers, decisions, action items, quotes
    - **YouTube video** — pull metadata, description, and transcript (see step 3 for method)
+   - **Audio file** (.m4a, .mp3, .wav, .ogg, .webm) — transcribe, identify speakers, extract decisions/tasks/promises
+   - **Image/screenshot** (.png, .jpg, .jpeg, .webp) — read/OCR the image, extract text and context
    - **Raw text** — classify by content (opinion, technical, narrative) and extract accordingly
 
 3. Read or fetch the full source content:
@@ -31,6 +33,24 @@ The argument is a URL, file path, or pasted text. If no argument, ask what to in
 
    **Method C — oEmbed fallback (works everywhere, limited data):**
    Fetch `https://www.youtube.com/oembed?url=URL&format=json` — gives title and channel only. Ask user to paste description for full ingest.
+
+   **For audio files** (.m4a, .mp3, .wav, .ogg, .webm):
+   ```bash
+   # Transcribe with Whisper (install if missing)
+   which whisper || pip install openai-whisper
+   whisper "path/to/audio.m4a" --model base --output_format txt --output_dir /tmp
+   ```
+   If `whisper` can't be installed, ask the user to paste the transcript.
+   After transcription: identify speakers if possible, extract decisions, action items, promises, and who said what.
+   Save the transcript to `raw/transcripts/`.
+
+   **For images/screenshots** (.png, .jpg, .jpeg, .webp):
+   Claude can read images directly. Analyze the image for:
+   - Text content (OCR) — extract all readable text
+   - UI screenshots — describe what's shown, extract data from tables/forms/dashboards
+   - Whiteboard/diagram photos — describe the structure and extract concepts
+   - Chat screenshots — extract messages, people, decisions
+   Save the image description to `raw/articles/` as a markdown summary with context.
 
    **For articles** — use WebFetch to pull the page content
    **For PDFs** — read the file directly
