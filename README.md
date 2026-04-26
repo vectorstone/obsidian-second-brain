@@ -1,4 +1,10 @@
 <p align="center">
+  <a href="https://github.com/eugeniughelbur/obsidian-second-brain">
+    <img src="media/banner.png" alt="obsidian-second-brain — Your Obsidian vault, alive" width="100%" />
+  </a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet?style=for-the-badge&logo=anthropic" alt="Claude Code Skill" />
   <img src="https://img.shields.io/badge/Obsidian-Plugin_Ready-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white" alt="Obsidian" />
   <img src="https://img.shields.io/github/v/release/eugeniughelbur/obsidian-second-brain?style=for-the-badge&color=green" alt="Release" />
@@ -29,22 +35,6 @@
   <em>Pull live X posts, web research with citations, and YouTube transcripts straight into your vault as AI-first notes. <br/>
   Vault-first synthesis knows what you already know and fills only the gaps.</em>
 </p>
-
-<p align="center"><em>What running it looks like</em></p>
-
-```bash
-$ /research-deep "AI memory tools"
-
-[Phase 1] Vault scan ............... 8 notes found
-[Phase 2] Gap analysis ............. 5 targeted queries
-[Phase 3] Fill gaps ................ 4 web · 1 X
-[Phase 4] Synthesize ............... 6 contradictions flagged
-
-💾 Saved → Research/Deep/2026-04-27 — AI memory tools.md
-📖 Auto-opened in Obsidian
-
-✓ 47s · $0.42 · 31 sources cited
-```
 
 <p align="center">
   <a href="https://github.com/eugeniughelbur">
