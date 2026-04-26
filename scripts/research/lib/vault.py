@@ -96,13 +96,26 @@ def obsidian_uri(note_path: Path) -> str:
 
 
 def print_save_links(note_path: Path, file=None) -> None:
-    """Print save confirmation with clickable Obsidian + VS Code links to the saved note."""
+    """Print save confirmation with clickable Obsidian + VS Code links to the saved note.
+
+    Also auto-opens the note in Obsidian unless disabled via RESEARCH_AUTOOPEN=0.
+    """
+    import os
+    import subprocess
     import sys
     out = file or sys.stderr
     rel = note_path.relative_to(VAULT_PATH)
+    uri = obsidian_uri(note_path)
     print(f"\n💾 Saved: {rel}", file=out)
-    print(f"   📖 Open in Obsidian: {obsidian_uri(note_path)}", file=out)
+    print(f"   📖 Open in Obsidian: {uri}", file=out)
     print(f"   ✏️  Open in VS Code:  code \"{note_path}\"", file=out)
+
+    # Auto-open in Obsidian by default. Disable with RESEARCH_AUTOOPEN=0.
+    if os.environ.get("RESEARCH_AUTOOPEN", "1") != "0":
+        try:
+            subprocess.run(["open", uri], check=False, timeout=5)
+        except Exception:
+            pass  # auto-open is a nice-to-have, never block the save flow
 
 
 def append_to_log(operation_summary: str) -> None:
