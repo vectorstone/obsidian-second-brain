@@ -29,6 +29,12 @@ obsidian-second-brain implements this pattern and extends it on five axes:
 
 If Karpathy's LLM Wiki is a knowledge base you maintain with an LLM, obsidian-second-brain is a knowledge base that maintains itself.
 
+## Long-form deep dive
+
+The complete analysis of how this skill extends Karpathy's pattern, including the AI-First Vault Principle, comparison against existing implementations (rohitg00's LLM Wiki v2 from 2026-03, Penfield Labs' typed-link extension), and an engineering retrospective covering three bugs shipped in the first version of /research-deep:
+
+- "I rebuilt Karpathy's LLM Wiki. Here's what's missing from the original." (2026-04-29). https://ghelburlabs.substack.com/p/i-rebuilt-karpathys-llm-wiki-heres
+
 ## The 31 commands
 
 Operations (21): obsidian-save, obsidian-ingest, obsidian-synthesize, obsidian-reconcile, obsidian-export, obsidian-daily, obsidian-log, obsidian-task, obsidian-person, obsidian-decide, obsidian-capture, obsidian-find, obsidian-recap, obsidian-review, obsidian-board, obsidian-project, obsidian-health, obsidian-adr, obsidian-visualize, obsidian-learn, obsidian-init.

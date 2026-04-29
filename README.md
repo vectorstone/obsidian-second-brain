@@ -33,6 +33,11 @@
 </p>
 
 <p align="center">
+  <strong>Read the long-form deep dive:</strong> <a href="https://ghelburlabs.substack.com/p/i-rebuilt-karpathys-llm-wiki-heres">"I rebuilt Karpathy's LLM Wiki. Here's what's missing from the original."</a><br/>
+  <em>Why append-only LLM wikis break at scale, the AI-First Vault Principle, and the three bugs I shipped in the first version.</em>
+</p>
+
+<p align="center">
   <strong>NEW in v0.5</strong> — Research toolkit: <code>/x-read</code> · <code>/x-pulse</code> · <code>/research</code> · <code>/research-deep</code> · <code>/youtube</code><br/>
   <em>Pull live X posts, web research with citations, and YouTube transcripts straight into your vault as AI-first notes. <br/>
   Vault-first synthesis knows what you already know and fills only the gaps.</em>
