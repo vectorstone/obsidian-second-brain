@@ -1,7 +1,10 @@
 ---
 name: obsidian-second-brain
 description: >
-  Operate any Obsidian vault as a living second brain. Use this skill whenever
+  Operate any Obsidian vault as a living, self-rewriting second brain (an evolution
+  of Karpathy's LLM Wiki pattern: sources rewrite existing pages, contradictions
+  reconcile automatically, scheduled agents maintain the vault while you sleep).
+  Use this skill whenever
   the user asks Claude to read, write, update, search, or manage their Obsidian
   vault — including saving notes from conversation, creating daily entries, updating
   kanban boards, logging dev work, managing people notes, capturing decisions,
@@ -17,7 +20,7 @@ description: >
 
 # Obsidian Second Brain
 
-> Claude operates your Obsidian vault as a living OS — not a note-taking app.
+> Claude operates your Obsidian vault as a self-rewriting knowledge base. An evolution of [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): sources rewrite existing pages instead of just appending, contradictions reconcile automatically, and scheduled agents maintain the vault while you sleep.
 > Everything worth remembering gets saved. Every update propagates everywhere it belongs.
 
 ---

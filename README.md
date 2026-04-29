@@ -19,9 +19,11 @@
 <h1 align="center">obsidian-second-brain</h1>
 
 <p align="center">
-  <strong>Your Obsidian vault is dead weight. This skill makes it alive.</strong>
+  <strong>An evolution of <a href="https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f">Karpathy's LLM Wiki pattern</a>: a vault that rewrites itself.</strong>
   <br /><br />
-  <em>31 commands &middot; self-rewriting knowledge base &middot; auto-synthesis &middot; thinking tools that argue with you &middot; live research from X, the web, and YouTube &middot; 4 scheduled agents &middot; 4 role presets</em>
+  <em>Every source updates existing pages instead of just appending new ones. Contradictions reconcile automatically. Your vault compounds while you sleep.</em>
+  <br /><br />
+  <em>31 commands &middot; auto-synthesis &middot; thinking tools that argue with you &middot; live research from X, the web, and YouTube &middot; 4 scheduled agents &middot; 4 role presets</em>
   <br /><br />
   <a href="#what-happens-when-you-install-this">See it in action</a> &middot;
   <a href="#31-commands">All commands</a> &middot;
@@ -63,6 +65,22 @@ You use Claude every day. Every session starts from scratch. You re-explain ever
 You take notes in Obsidian. Hundreds of files. They just sit there. You make the same decision twice because you forgot you made it six months ago. Ideas rot in daily notes. Nobody connects the dots.
 
 **Two powerful tools. Completely disconnected.**
+
+---
+
+## How this extends Karpathy's LLM Wiki
+
+Karpathy's pattern is brilliant. Drop sources, LLM creates wiki pages, ask questions. This skill takes it further:
+
+| | Karpathy's LLM Wiki | obsidian-second-brain |
+|---|---|---|
+| **New sources** | Append new pages, cross-reference | **Rewrite existing pages.** People get updated, claims revised, stale facts replaced. |
+| **Contradictions** | Flagged, you resolve manually | `/obsidian-reconcile` resolves them automatically |
+| **Patterns** | Surface when you ask | `/obsidian-synthesize` finds unnamed patterns and writes synthesis pages on its own |
+| **When it runs** | On demand, when you prompt | 4 scheduled agents: nightly close, weekly review, contradiction sweep, vault-health check |
+| **Note format** | Human-readable wiki pages | AI-first: `## For future Claude` preamble + frontmatter for LLM retrieval, not human review |
+
+If Karpathy's wiki is a knowledge base you maintain with an LLM, this is a knowledge base that maintains itself.
 
 ---
 
