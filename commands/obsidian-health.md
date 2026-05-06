@@ -4,9 +4,9 @@ description: Run a vault health check — grouped by severity, detects contradic
 
 Use the obsidian-second-brain skill. Execute `/obsidian-health`:
 
-1. Read `_CLAUDE.md` first to find the vault path
-2. Run: `python ~/.claude/skills/obsidian-second-brain/scripts/vault_health.py --path ~/path/to/vault --json`
-   (replace vault path with the one from `_CLAUDE.md`)
+1. Read `AGENTS.md` first if it exists. Otherwise read `_CLAUDE.md`. Use that to find the vault path and conventions
+2. Run: `python ~/.codex/skills/obsidian-second-brain/scripts/vault_health.py --path ~/path/to/vault --json`
+   (replace vault path with the one from `AGENTS.md`, or `_CLAUDE.md` if using legacy compatibility)
 3. Parse the JSON output and split findings into categories
 4. Spawn parallel subagents to handle each category simultaneously:
    - **Links agent**: verify broken links, attempt to resolve them

@@ -13,7 +13,7 @@ Audits an Obsidian vault for structural issues:
 
 Usage:
     python vault_health.py --path ~/my-vault
-    python vault_health.py --path ~/my-vault --json     # JSON output (for Claude)
+    python vault_health.py --path ~/my-vault --json     # JSON output (for Codex / other agents)
 """
 
 import argparse
@@ -108,7 +108,7 @@ def check_orphans(notes: dict) -> list:
         top_folder = rel.split("/")[0] if "/" in rel else ""
         if top_folder in skip_folders:
             continue
-        if rel in ("Home.md", "_CLAUDE.md"):
+        if rel in ("Home.md", "_CLAUDE.md", "AGENTS.md"):
             continue
         stem_lower = note["stem"].lower()
         stem_norm = stem_lower.replace("-", " ").replace("_", " ")
@@ -156,7 +156,7 @@ def check_missing_frontmatter(notes: dict) -> list:
     for rel, note in notes.items():
         if any(s in rel for s in skip):
             continue
-        if rel in ("Home.md", "_CLAUDE.md"):
+        if rel in ("Home.md", "_CLAUDE.md", "AGENTS.md"):
             continue
         if not note["has_frontmatter"] and note["size"] > 50:
             issues.append({
@@ -295,13 +295,13 @@ def print_report(result: dict):
 
     print()
     print("=" * 60)
-    print("Tip: run with --json for machine-readable output to pipe into Claude.")
+    print("Tip: run with --json for machine-readable output to pipe into Codex or another agent.")
 
 
 def main():
     parser = argparse.ArgumentParser(description="Obsidian vault health checker")
     parser.add_argument("--path", required=True, help="Path to the vault")
-    parser.add_argument("--json", action="store_true", help="Output as JSON (for Claude)")
+    parser.add_argument("--json", action="store_true", help="Output as JSON (for agents)")
     args = parser.parse_args()
 
     vault = Path(args.path).expanduser().resolve()

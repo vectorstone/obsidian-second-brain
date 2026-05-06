@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-decide $ARGUMENTS`:
 
 The optional argument narrows focus to a specific topic.
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Scan the conversation for decisions made — look for conclusions, choices, commitments, direction changes
 3. If a topic argument is given, focus on decisions related to that topic
 4. Find the relevant project note(s) — search the vault if needed

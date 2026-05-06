@@ -7,15 +7,15 @@ Generate a visual architecture diagram (Mind Map, Infographic, or Slide Deck) of
 
 ## System Overview
 
-obsidian-second-brain is a Claude Code skill that turns an Obsidian vault into a personal AI operating system. As of v0.5: 6 layers, 31 slash commands, 4 scheduled agents, 1 background agent, a research toolkit (Grok + Perplexity + YouTube), and a central config file (_CLAUDE.md) that ties everything together. Section 0 of `_CLAUDE.md` enforces the AI-first vault rule — every note is designed for future-Claude retrieval, not human reading.
+obsidian-second-brain is a Codex skill that turns an Obsidian vault into a personal AI operating system. As of v0.5: 6 layers, 31 slash commands, 4 scheduled agents, 1 background agent, a research toolkit (Grok + Perplexity + YouTube), and a central config file (AGENTS.md) that ties everything together. Section 0 of `AGENTS.md` enforces the AI-first vault rule — every note is designed for future-agent retrieval, not human reading.
 
 ---
 
 ## Core Architecture
 
-### Entry Point: _CLAUDE.md
+### Entry Point: AGENTS.md
 - Lives at the vault root
-- Read by every Claude surface on session start (Claude Desktop, Claude Code, VS Code, terminal)
+- Read by every Claude surface on session start (Codex and compatible agent surfaces)
 - Contains: folder structure map, naming conventions, frontmatter schemas, propagation rules, active context, kanban format rules
 - Acts as the operating manual — no memory needed between sessions
 - Updated by user or by /obsidian-init command
@@ -106,10 +106,10 @@ Purpose: Automated vault management — saving, organizing, searching, maintaini
     - PROCESS: Runs vault_health.py, spawns 5 parallel subagents (Links, Duplicates, Frontmatter, Staleness, Orphans)
     - OUTPUT: Report grouped by severity (critical/warning/info)
 
-14. **/obsidian-init** — Bootstrap _CLAUDE.md
+14. **/obsidian-init** — Bootstrap AGENTS.md
     - INPUT: Existing vault
     - PROCESS: Spawns 4 parallel subagents (Dashboard, Templates, Boards, Samples)
-    - OUTPUT: Generates _CLAUDE.md at vault root
+    - OUTPUT: Generates AGENTS.md at vault root
 
 ---
 
@@ -206,7 +206,7 @@ Purpose: Silent vault updates during active sessions.
 3. PostCompact hook fires → obsidian-bg-agent.sh
 4. Shell script reads JSON summary from stdin
 5. Spawns headless `claude -p` subprocess in vault directory
-6. Agent reads _CLAUDE.md, scans session summary
+6. Agent reads AGENTS.md, scans session summary
 7. Writes vault updates (people, projects, decisions, tasks, ideas)
 8. Exits silently — user sees nothing
 9. Log file: /tmp/obsidian-bg-agent.log
@@ -219,7 +219,7 @@ Safety: Never deletes, archives, or merges. Only adds or updates.
 
 ```
 Your Vault/
-├── _CLAUDE.md              # Claude's operating manual
+├── AGENTS.md              # Claude's operating manual
 ├── Home.md                 # Dashboard with Dataview queries
 ├── Daily/                  # Daily notes (YYYY-MM-DD.md)
 ├── Projects/               # Project notes
@@ -251,11 +251,11 @@ User Conversation
   /obsidian-world (reads vault state at session start)
        ^
        |
-  _CLAUDE.md (read by every Claude surface on boot)
+  AGENTS.md (read by every Claude surface on boot)
 
 
 Background:
-  PostCompact hook ──> headless claude -p ──> vault updated silently
+  PostCompact hook ──> headless agent execution ──> vault updated silently
 
 Scheduled:
   8 AM  ──> morning agent  ──> daily note + overdue tasks
@@ -285,6 +285,6 @@ Scheduled:
 2. **Propagate everything** — Every write updates all linked notes (boards, daily note, project notes)
 3. **No orphans** — Every note must be linked from somewhere
 4. **Fuzzy matching** — All name arguments handle typos
-5. **_CLAUDE.md is the source of truth** — Overrides all defaults
+5. **AGENTS.md is the source of truth** — Overrides all defaults
 6. **Agents read, humans decide** — Thinking tools present evidence, user makes the call
 7. **Vault compounds** — More writing = more context = more powerful AI partner

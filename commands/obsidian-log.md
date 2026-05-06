@@ -4,7 +4,7 @@ description: Log this work or dev session to the vault — infers project from c
 
 Use the obsidian-second-brain skill. Execute `/obsidian-log`:
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Infer the project from conversation context — search the vault if needed to find the right project note
 3. Read `Templates/Dev Log.md` (or `Templates/Work Log.md` if it exists)
 4. Fill in: date, project, what was worked on, problems encountered, decisions made, next steps — all inferred from the conversation

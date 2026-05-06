@@ -4,7 +4,7 @@ description: Create or update today's daily note — pulls calendar events, over
 
 Use the obsidian-second-brain skill. Execute `/obsidian-daily`:
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Read `CRITICAL_FACTS.md` for timezone
 
 3. Check if `wiki/daily/YYYY-MM-DD.md` exists for today

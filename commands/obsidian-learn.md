@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-learn $ARGUMENTS`:
 
 The optional argument is a scope: `recent` (last 30 days, default), `all` (entire vault), or a topic name.
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Read `index.md` and `log.md` for vault context
 
 3. Spawn parallel subagents to gather learnings:

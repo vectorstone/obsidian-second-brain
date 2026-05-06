@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-visualize $ARGUMENTS`:
 
 The optional argument is a scope: a project name, entity name, topic, or "full" for the entire vault. Default: full vault.
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Read `index.md` for the full vault catalog
 
 3. Build the graph:

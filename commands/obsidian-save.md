@@ -4,7 +4,7 @@ description: Save everything worth keeping from this conversation to the vault
 
 Use the obsidian-second-brain skill. Execute `/obsidian-save`:
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Scan the entire conversation and identify all vault-worthy items: decisions, tasks, people mentioned, projects started, ideas, learnings, deals, mentions/shoutouts, AND content-worthy items (hooks, data points, swipe-file material, research findings)
 3. Group items by type: people, projects, tasks, decisions, ideas, deals, content
 4. Spawn parallel subagents — one per group — so all note types are handled simultaneously:

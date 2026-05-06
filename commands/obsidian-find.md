@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-find $ARGUMENTS`:
 
 The argument is the search query.
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Run `search(query="...")` with the provided query
 3. Also try variations if results are sparse (synonyms, related terms)
 4. Return results with context: note title, folder, a relevant excerpt, and what type of note it is

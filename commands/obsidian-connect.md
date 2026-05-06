@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-connect $ARGUMENTS`:
 
 Two arguments required: the two topics, domains, or note names to connect. If only one is given or none, ask the user for both.
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Parse the two domains from arguments (e.g., `/obsidian-connect "distributed systems" "cooking"`)
 3. For each domain, search the vault:
    - Find all notes related to that domain (by title, tags, content)

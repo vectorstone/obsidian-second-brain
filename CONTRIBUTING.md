@@ -41,11 +41,10 @@ chmod 600 ~/.config/obsidian-second-brain/.env
 # then paste your xAI / Perplexity / YouTube keys into the file
 
 # Link the skill into Claude Code (if you're testing slash commands)
-ln -s "$(pwd)" ~/.claude/skills/obsidian-second-brain
-ln -s commands/* ~/.claude/commands/
+ln -s "$(pwd)" ~/.codex/skills/obsidian-second-brain
 ```
 
-Now restart Claude Code and your slash commands will use the local checkout.
+Now reopen Codex in a vault and the local checkout will be used by the installed skill.
 
 ---
 
@@ -146,8 +145,8 @@ uv run -m scripts.research.x_read "https://x.com/some/post"
 ```
 
 **For slash command changes:**
-1. Symlink your local checkout into `~/.claude/commands/`
-2. Restart Claude Code
+1. Symlink your local checkout into `~/.codex/skills/obsidian-second-brain`
+2. Reopen Codex in the target vault
 3. Invoke the command and verify the output matches the AI-first rule
 
 **For vault note writes:**

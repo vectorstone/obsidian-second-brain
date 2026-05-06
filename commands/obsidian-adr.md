@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-adr $ARGUMENTS`:
 
 The optional argument is the decision topic. If not provided, infer from recent conversation context.
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Identify the structural decision:
    - From the argument, or from recent conversation (e.g., a project was graduated, a folder was reorganized, a new convention was adopted, a concept was promoted to hub status)
 3. Create a decision record at `Knowledge/ADR-YYYY-MM-DD — Title.md`:

@@ -1,11 +1,11 @@
 <p align="center">
   <a href="https://github.com/eugeniughelbur/obsidian-second-brain">
-    <img src="media/banner.png" alt="obsidian-second-brain: a Claude Code skill for Obsidian that turns your vault into a living AI-first second brain" width="100%" />
+    <img src="media/banner.png" alt="obsidian-second-brain: a Codex-first Obsidian skill that turns your vault into a living AI-first second brain" width="100%" />
   </a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet?style=for-the-badge&logo=anthropic" alt="Claude Code Skill" />
+  <img src="https://img.shields.io/badge/Codex-Skill-blueviolet?style=for-the-badge&logo=anthropic" alt="Codex Skill" />
   <img src="https://img.shields.io/badge/Obsidian-Plugin_Ready-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white" alt="Obsidian" />
   <img src="https://img.shields.io/github/v/release/eugeniughelbur/obsidian-second-brain?style=for-the-badge&color=green" alt="Release" />
   <img src="https://img.shields.io/github/license/eugeniughelbur/obsidian-second-brain?style=for-the-badge" alt="License" />
@@ -65,7 +65,7 @@
 
 ## The Problem
 
-You use Claude every day. Every session starts from scratch. You re-explain everything. The conversation ends. Everything disappears.
+You use AI coding agents every day. Every session starts from scratch. You re-explain everything. The conversation ends. Everything disappears.
 
 You take notes in Obsidian. Hundreds of files. They just sit there. You make the same decision twice because you forgot you made it six months ago. Ideas rot in daily notes. Nobody connects the dots.
 
@@ -129,7 +129,7 @@ Scans your vault for what you already know. Identifies gaps. Spawns 3-5 targeted
 **You hit a great YouTube video:** `/youtube https://youtu.be/...`
 Free transcript via youtube-transcript-api. Optional metadata + top comments via YouTube Data API v3. Grok summarizes into TL;DR, Key Points, Notable Quotes (verbatim), Themes, Comment Sentiment, and Worth Following Up On. Saved as an AI-first note in your vault.
 
-**You never open Obsidian.** Everything happens through Claude.
+**You never need to open Obsidian during capture.** Everything can happen through Codex, and Claude can stay compatible if you still use it.
 
 ---
 
@@ -429,7 +429,7 @@ No preset? You get a general-purpose vault that works for everyone.
 **Background:** fires after every context compaction. You keep working. The vault updates itself.
 
 ```
-PostCompact -> obsidian-bg-agent.sh -> claude -p (headless) -> vault updated
+Claude PostCompact -> obsidian-bg-agent.sh -> headless agent (`claude -p` or `codex exec`) -> vault updated
 ```
 
 **Scheduled:**
@@ -453,7 +453,8 @@ Claude is the reader and writer. The vault is a database.
 
 ```
 vault/
-+-- _CLAUDE.md          # Operating manual
++-- AGENTS.md           # Primary operating manual for Codex
++-- _CLAUDE.md          # Compatibility mirror for Claude
 +-- index.md            # Page catalog (Claude reads FIRST)
 +-- log.md              # Activity timeline
 +-- SOUL.md             # Your identity
@@ -500,11 +501,11 @@ curl -fsSL https://raw.githubusercontent.com/eugeniughelbur/obsidian-second-brai
 Or two commands:
 
 ```bash
-git clone https://github.com/eugeniughelbur/obsidian-second-brain ~/.claude/skills/obsidian-second-brain
-bash ~/.claude/skills/obsidian-second-brain/scripts/setup.sh "/path/to/your/vault"
+git clone https://github.com/eugeniughelbur/obsidian-second-brain ~/.codex/skills/obsidian-second-brain
+bash ~/.codex/skills/obsidian-second-brain/scripts/setup.sh "/path/to/your/vault"
 ```
 
-Then: `/obsidian-init`
+Then open Codex in the vault and run `/obsidian-init` (or ask to initialize the vault with obsidian-second-brain).
 
 ### Research toolkit (optional)
 
@@ -532,17 +533,17 @@ Without keys, the existing 26 vault commands still work fine. Research toolkit j
 
 ## FAQ
 
-### What is a Claude Code skill?
-A Claude Code skill is a reusable behavior package for Anthropic's Claude Code CLI. It bundles slash commands, scripts, references, and operating instructions that Claude loads automatically. Skills give Claude domain expertise without prompt-engineering each session.
+### What is this in Codex terms?
+This repo installs as a Codex skill under `~/.codex/skills/obsidian-second-brain`. It bundles operating instructions, command-intent specs, scripts, references, and vault templates so Codex can read, write, and reason over an Obsidian vault from outside Obsidian.
 
-### Is this an Obsidian plugin or a Claude Code skill?
-This is a Claude Code skill, not an Obsidian plugin. An Obsidian plugin lives inside Obsidian and adds UI features there. A Claude Code skill lives inside Claude Code (Anthropic's terminal AI coding agent) and gives Claude the ability to read, write, and reason over your Obsidian vault from outside Obsidian. You install this skill into Claude Code, not into Obsidian. Your vault is unchanged, just better-leveraged.
+### Is this an Obsidian plugin?
+No. It is an external agent skill, not an in-app Obsidian plugin. Your vault stays plain markdown.
 
-### What's the difference between an Obsidian Claude Code skill and a regular Obsidian plugin?
-An Obsidian plugin runs inside Obsidian and is written in TypeScript against Obsidian's plugin API. A Claude Code skill for Obsidian runs inside Claude Code and is written as a set of markdown command files plus optional Python scripts. Plugins are constrained to what Obsidian's API exposes. Skills are constrained only by what Claude can do in your shell, which is why this skill can do things plugins can't: pull live web research into vault notes, run scheduled agents that update your vault while you sleep, and synthesize knowledge across years of notes using Anthropic's Claude.
+### Does it still work with Claude?
+Yes, partially. The repo now targets Codex first, but still keeps a `_CLAUDE.md` compatibility mirror and optional Claude-specific PostCompact automation where available.
 
-### How do I add this Obsidian Claude skill to Claude Code?
-Run the one-line installer from the Install section below. It clones the repo to `~/.claude/skills/obsidian-second-brain` and symlinks the slash commands into `~/.claude/commands/` so Claude Code picks them up automatically. Restart Claude Code after install. The skill loads on every session that touches an Obsidian vault.
+### How do I add this skill to Codex?
+Run the installer from the Install section. It clones the repo to `~/.codex/skills/obsidian-second-brain`. Then run the setup script with your vault path, open Codex in that vault, and ask for `/obsidian-init` or say “use obsidian-second-brain to initialize this vault.”
 
 ### Does this work with Obsidian Sync?
 Yes. The skill writes to your vault as standard markdown files. Obsidian Sync, iCloud, Syncthing, and Git-based sync all work without modification.
@@ -554,7 +555,7 @@ No. The original 26 vault commands (`/obsidian-save`, `/obsidian-daily`, etc.) w
 Notion AI and Mem are closed-source SaaS products that own your data. This skill stores everything as plain markdown in your local Obsidian vault, with no vendor lock-in. The AI is on top of your data, not behind it. You can switch tools or stop using the skill at any point and still have your full vault.
 
 ### What is the AI-first vault rule?
-The principle that vault notes are written for future-Claude to retrieve and reason over, not for human reading. Notes have machine-readable structure, recency markers per claim, mandatory `[[wikilinks]]`, source URLs preserved verbatim, and confidence levels. See [`references/ai-first-rules.md`](references/ai-first-rules.md) for the full specification with frontmatter schemas per note type.
+The principle that vault notes are written for future AI-agent retrieval and reasoning, not just for human reading. Notes have machine-readable structure, recency markers per claim, mandatory `[[wikilinks]]`, source URLs preserved verbatim, and confidence levels. See [`references/ai-first-rules.md`](references/ai-first-rules.md) for the full specification with frontmatter schemas per note type.
 
 ### Is this safe to run on my existing vault?
 Yes. The skill never deletes or modifies notes destructively without explicit confirmation. Existing notes stay as-is. New notes follow the AI-first rule. `/obsidian-health` flags pre-AI-first notes so you can update them on your own schedule.
@@ -566,11 +567,11 @@ Yes. The skill never deletes or modifies notes destructively without explicit co
 Approximate per-call costs as of 2026-04: `/x-read` ~$0.05, `/x-pulse` ~$0.13, `/research` ~$0.04, `/research-deep` ~$0.40-$0.80, `/youtube` ~$0.04. Costs for Grok calls are logged to `~/.research-toolkit/usage.log` for visibility. No hard caps — you're trusted to monitor your own spend.
 
 ### Can I use this on Windows or Linux?
-The core vault commands work anywhere Claude Code runs. The research toolkit was tested on macOS — `install.sh` and the auto-open behavior assume macOS conventions (`~/.config`, `open` command). Pull requests welcome to add Windows and Linux paths.
+The core vault commands work anywhere Codex runs, and most still remain usable from Claude with the compatibility mirror. The research toolkit was tested on macOS — `install.sh` and the auto-open behavior assume macOS conventions (`~/.config`, `open` command). Pull requests welcome to add Windows and Linux paths.
 
 ### How do I update to the latest version?
 ```bash
-cd ~/.claude/skills/obsidian-second-brain && git pull
+cd ~/.codex/skills/obsidian-second-brain && git pull
 ```
 Nothing to re-run. Commands pick up the new instructions automatically. See [CHANGELOG.md](CHANGELOG.md) for what's in each release.
 

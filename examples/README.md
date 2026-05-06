@@ -8,7 +8,7 @@ If you are evaluating the skill, browse the files here before installing. If you
 
 ```
 sample-vault/
-├── _CLAUDE.md                                       # Vault operating manual (the file /obsidian-init writes)
+├── AGENTS.md                                       # Vault operating manual (the file /obsidian-init writes)
 ├── Daily/2026-04-27.md                              # type: daily
 ├── people/Alex Rivera.md                            # type: person (vault owner)
 ├── people/Sam Patel.md                              # type: person (collaborator)
@@ -45,4 +45,4 @@ If you want a clean starting point, run:
 /obsidian-init
 ```
 
-That writes a real `_CLAUDE.md` tailored to your name, your projects, and your folder preferences.
+That writes a real `AGENTS.md` tailored to your name, your projects, and your folder preferences.

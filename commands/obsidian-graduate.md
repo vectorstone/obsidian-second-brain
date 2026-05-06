@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-graduate $ARGUMENTS`:
 
 The optional argument is the idea title, tag, or keyword. If not provided, scan recent notes for ideas tagged `#idea` or in the `Ideas/` folder and present them for selection.
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Find the idea to graduate:
    - If argument given: search `Ideas/`, daily notes, and captures for a matching idea (fuzzy match)
    - If no argument: list recent ideas (last 14 days) and ask the user to pick one

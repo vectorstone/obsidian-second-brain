@@ -5,12 +5,12 @@ description: >
   of Karpathy's LLM Wiki pattern: sources rewrite existing pages, contradictions
   reconcile automatically, scheduled agents maintain the vault while you sleep).
   Use this skill whenever
-  the user asks Claude to read, write, update, search, or manage their Obsidian
+  the user asks Codex (or another agent) to read, write, update, search, or manage their Obsidian
   vault — including saving notes from conversation, creating daily entries, updating
   kanban boards, logging dev work, managing people notes, capturing decisions,
   tracking deals, or maintaining any vault structure. Also triggers when the user
   wants to bootstrap a new vault from scratch, run a vault health check, or drop
-  a _CLAUDE.md into their vault so all Claude surfaces share the same operating rules.
+  an AGENTS.md into their vault so Codex automatically loads the operating rules, with a matching _CLAUDE.md mirror when Claude compatibility is needed.
   Includes a research toolkit (5 commands: /x-read, /x-pulse, /research, /research-deep,
   /youtube) for AI-powered research via Grok, Perplexity, and YouTube — findings save
   to the vault automatically following the AI-first vault rule. Use proactively whenever
@@ -20,7 +20,7 @@ description: >
 
 # Obsidian Second Brain
 
-> Claude operates your Obsidian vault as a self-rewriting knowledge base. An evolution of [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): sources rewrite existing pages instead of just appending, contradictions reconcile automatically, and scheduled agents maintain the vault while you sleep.
+> Codex operates your Obsidian vault as a self-rewriting knowledge base. An evolution of [Karpathy's LLM Wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f): sources rewrite existing pages instead of just appending, contradictions reconcile automatically, and scheduled agents maintain the vault while you sleep.
 > Everything worth remembering gets saved. Every update propagates everywhere it belongs.
 
 ---
@@ -39,18 +39,17 @@ Use standard file tools (Read, Write, Edit, Glob) against the vault path. The va
 
 If MCP is not installed, silently use filesystem access. Tell the user ONCE (first time only):
 
-> "For faster vault access on large vaults, consider installing mcp-obsidian: `claude mcp add obsidian-vault -s user -- npx -y mcp-obsidian \"/path/to/your/vault\"`. Everything works without it."
+> "For faster vault access on large vaults, consider installing mcp-obsidian: `codex mcp add obsidian-vault -- npx -y mcp-obsidian \"/path/to/your/vault\"`. Everything works without it."
 
-### 1. First time in a vault → read `_CLAUDE.md`
+### 1. First time in a vault → read `AGENTS.md` (fallback `_CLAUDE.md`)
 
-Before doing anything in a vault, check if `_CLAUDE.md` exists at the vault root:
+Before doing anything in a vault, check if `AGENTS.md` exists at the vault root. If not, check `_CLAUDE.md`:
 
 ```
-get_file_contents("_CLAUDE.md")
+Read `AGENTS.md`, or `_CLAUDE.md` if `AGENTS.md` is absent
 ```
 
-If it exists: follow its rules exactly — they override the defaults in this skill. Where `_CLAUDE.md` is silent, fall back to the defaults below.
-If it doesn't exist: use the defaults in this skill, then offer to create one.
+If `AGENTS.md` exists: follow its rules exactly. If only `_CLAUDE.md` exists: treat it as legacy compatibility and follow it, but offer to migrate to `AGENTS.md`. If neither exists: use the defaults in this skill, then offer to create them.
 
 ### 2. First time with a new user → run discovery
 
@@ -83,7 +82,7 @@ python scripts/bootstrap_vault.py --path ~/my-vault --name "Your Name" --style o
 python scripts/bootstrap_vault.py --path ~/my-vault --name "Your Name" --mode assistant --subject "Boss Name"
 ```
 
-Then configure `mcp-obsidian` to point at the new vault path and restart Claude.
+Then configure `mcp-obsidian` to point at the new vault path and reopen Codex (or Claude if using the compatibility flow).
 
 **Presets** customize the vault for different use cases:
 - **`executive`** — Decisions, people, meetings, strategic planning. Kanban: OKRs, Quarterly, Weekly.
@@ -102,7 +101,7 @@ See `references/vault-schema.md` for full structural details.
 ## Core Operating Principles
 
 ### AI-first vault rule (applies to every note)
-The vault is designed for **future-Claude** to read and reason over, not for human review. Every note Claude writes — across all 31 commands — must follow `references/ai-first-rules.md`:
+The vault is designed for future agent retrieval and reasoning, not only for human review. Every note the agent writes — across all 31 commands — must follow `references/ai-first-rules.md`:
 
 1. **Self-contained context** — each note explains itself; don't rely on backlinks alone
 2. **"For future Claude" preamble** — 2-3 sentence summary so Claude can decide relevance in 10 seconds
@@ -112,7 +111,7 @@ The vault is designed for **future-Claude** to read and reason over, not for hum
 6. **Cross-links mandatory** — every person/project/idea/decision uses `[[wikilinks]]`
 7. **Confidence levels** — `stated | high | medium | speculation` where applicable
 
-This rule lives in `_CLAUDE.md` Section 0 of every vault using this skill, and in `references/ai-first-rules.md` (the canonical specification with frontmatter schemas + preamble templates per note type).
+This rule lives in `AGENTS.md` Section 0 of every vault using this skill (and `_CLAUDE.md` when the compatibility mirror is generated), and in `references/ai-first-rules.md` (the canonical specification with frontmatter schemas + preamble templates per note type).
 
 ### Never create in isolation
 Every write operation must ask: *where else does this belong?*
@@ -255,13 +254,13 @@ See `references/write-rules.md` for the complete guide. Summary:
 
 ---
 
-## The `_CLAUDE.md` File
+## The `AGENTS.md` File
 
 This is the most important concept in this skill.
 
-`_CLAUDE.md` lives at the vault root and persists Claude's operating rules across every session and every surface (Claude Desktop, Claude Code, VS Code, terminal). Without it, Claude has to re-learn your vault conventions every conversation.
+`AGENTS.md` lives at the vault root and persists the vault's operating rules across Codex sessions. For Claude compatibility, the skill can also mirror the same content to `_CLAUDE.md`.
 
-**Precedence rule:** `_CLAUDE.md` wins on all vault-specific rules (folder names, naming conventions, frontmatter fields, auto-save behavior, private folders). The defaults in this skill file apply only where `_CLAUDE.md` is silent. Never let skill defaults override an explicit `_CLAUDE.md` rule.
+**Precedence rule:** `AGENTS.md` wins on all vault-specific rules. If only `_CLAUDE.md` exists, treat it as the legacy source until migrated. (folder names, naming conventions, frontmatter fields, auto-save behavior, private folders). The defaults in this skill file apply only where `_CLAUDE.md` is silent. Never let skill defaults override an explicit `_CLAUDE.md` rule.
 
 **What it contains:**
 - Your vault's folder map and what each folder is for
@@ -271,9 +270,9 @@ This is the most important concept in this skill.
 - People and projects that need special handling
 - Links to key files (boards, dashboard, templates)
 
-To generate a `_CLAUDE.md` for an existing vault, run vault discovery then use the template in `references/claude-md-template.md`.
+To generate an `AGENTS.md` for an existing vault, run vault discovery then use the template in `references/agents-md-template.md`.
 
-To install it: write the file to the vault root. Every Claude session that starts in that vault should read it first.
+To install it: write `AGENTS.md` to the vault root and mirror `_CLAUDE.md` if Claude compatibility is required.
 
 ---
 
@@ -888,7 +887,7 @@ No hard caps. No blocking. No per-call confirmation prompts. Trust the user to m
 
 Four autonomous agents designed to run on a schedule with no user intervention. Each runs a focused vault operation at a set time, then stops. They are conservative by default — they never delete or archive anything autonomously, and they never ask the user questions mid-run.
 
-Set these up once using the `/schedule` skill in Claude Code.
+Set these up once using your preferred scheduler or automation runner. Claude can use `/schedule`; Codex users should wire external automation explicitly.
 
 ---
 
@@ -1010,16 +1009,16 @@ To list or remove scheduled agents:
 
 ---
 
-## Background Agent (PostCompact Hook)
+## Background Agent (Claude PostCompact / external automation helper)
 
 A background agent that fires automatically whenever Claude compacts the conversation context. It reads the session summary and propagates everything worth preserving to the vault — no user action required.
 
 **What it does:** After each compaction, a headless `claude -p` subprocess wakes up, reads `_CLAUDE.md`, scans the summary for vault-worthy items (people, projects, decisions, tasks, dev work, ideas), and writes updates everywhere they belong — people notes, project notes, dev logs, kanban boards, and today's daily note.
 
 **How it works:**
-1. `PostCompact` hook fires in Claude Code after context compaction
+1. On Claude, the `PostCompact` hook can fire after compaction. On Codex, run the helper from your own automation because this native hook is not available here.
 2. Hook script reads the JSON summary from stdin
-3. Spawns a headless `claude --dangerously-skip-permissions -p` subprocess in the vault directory
+3. Spawns a headless agent subprocess (`claude -p` when available, otherwise `codex exec`) in the vault directory
 4. Agent runs silently, propagates updates, and exits — user sees nothing
 
 **Setup:**
@@ -1029,7 +1028,7 @@ A background agent that fires automatically whenever Claude compacts the convers
    chmod +x ~/.claude/skills/obsidian-second-brain/hooks/obsidian-bg-agent.sh
    ```
 
-2. Set `OBSIDIAN_VAULT_PATH` in `~/.claude/settings.json`:
+2. Set `OBSIDIAN_VAULT_PATH` in `~/.config/obsidian-second-brain/config.env` (or your own automation environment):
    ```json
    {
      "env": {
@@ -1038,7 +1037,7 @@ A background agent that fires automatically whenever Claude compacts the convers
    }
    ```
 
-3. Add the `PostCompact` hook to `~/.claude/settings.json`:
+3. If you use Claude, add the `PostCompact` hook to `~/.claude/settings.json`. Codex users should treat this as an external automation helper.
    ```json
    {
      "hooks": {
@@ -1069,7 +1068,7 @@ A background agent that fires automatically whenever Claude compacts the convers
 
 - `references/vault-schema.md` — Complete folder structure + frontmatter specs for all note types
 - `references/write-rules.md` — Detailed writing, linking, and formatting rules
-- `references/claude-md-template.md` — Template for generating a vault's `_CLAUDE.md`
+- `references/agents-md-template.md` — Template for generating a vault's `AGENTS.md`
 
 ## Scripts
 

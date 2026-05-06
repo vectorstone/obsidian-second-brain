@@ -6,7 +6,7 @@ Use the obsidian-second-brain skill. Execute `/obsidian-export $ARGUMENTS`:
 
 The optional argument is the format: `json` (default) or `markdown`. 
 
-1. Read `_CLAUDE.md` first if it exists in the vault root
+1. Read `AGENTS.md` first if it exists in the vault root. If not, read `_CLAUDE.md`
 2. Read `index.md` for the full vault catalog
 
 3. Build a structured export by scanning the vault:
