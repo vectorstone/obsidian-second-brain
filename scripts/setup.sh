@@ -93,8 +93,19 @@ if [[ "$TARGET" == "claude" || "$TARGET" == "both" ]]; then
 fi
 
 echo
+step "6. Codex command wrappers..."
+if command -v "$HOME/.codex/skills/obsidian-second-brain/scripts/install-codex-wrappers.sh" >/dev/null 2>&1; then
+  true
+fi
+if [[ -x "$HOME/.codex/skills/obsidian-second-brain/scripts/install-codex-wrappers.sh" ]]; then
+  "$HOME/.codex/skills/obsidian-second-brain/scripts/install-codex-wrappers.sh"
+  green "   Installed local Codex command wrappers under ~/.codex/bin"
+else
+  yellow "   Wrapper installer not found under ~/.codex/skills — skipping"
+fi
+
 echo "==========================="
 green "Setup complete."
-echo "Next step: open Codex in your vault directory and run /obsidian-init (or ask to initialize the vault with obsidian-second-brain)."
+echo "Next step: in Codex, either ask naturally to initialize the vault, run 'obsidian-init', or call scripts/run-command.sh /obsidian-init."
 echo "This will generate AGENTS.md for Codex and a matching _CLAUDE.md for Claude compatibility."
 echo "Health check: python $SKILL_DIR/scripts/vault_health.py --path \"$VAULT\""

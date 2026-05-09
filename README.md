@@ -505,7 +505,7 @@ git clone https://github.com/eugeniughelbur/obsidian-second-brain ~/.codex/skill
 bash ~/.codex/skills/obsidian-second-brain/scripts/setup.sh "/path/to/your/vault"
 ```
 
-Then open Codex in the vault and run `/obsidian-init` (or ask to initialize the vault with obsidian-second-brain).
+Then open Codex in the vault and either ask naturally to initialize it, run `obsidian-init`, or call `~/.codex/skills/obsidian-second-brain/scripts/run-command.sh /obsidian-init`.
 
 ### Research toolkit (optional)
 
@@ -531,6 +531,29 @@ Without keys, the existing 26 vault commands still work fine. Research toolkit j
 
 ---
 
+### Codex command entrypoints
+
+Codex does not currently auto-register Claude-style native slash commands from `commands/*.md` in this repo. This skill ships a compatibility layer instead:
+
+- `scripts/run-command.sh /obsidian-init` — generic runner for `/name`, `$name`, or bare `name`
+- `~/.codex/bin/obsidian-init` — installed wrapper commands for every file in `commands/*.md`
+- Natural-language fallback — ask Codex to "use obsidian-second-brain to initialize this vault"
+
+Examples:
+
+```bash
+obsidian-init
+obsidian-health
+x-read https://x.com/handle/status/123
+~/.codex/skills/obsidian-second-brain/scripts/run-command.sh '$obsidian-daily'
+```
+
+If `~/.codex/bin` is not on your `PATH`, add it:
+
+```bash
+export PATH="$HOME/.codex/bin:$PATH"
+```
+
 ## FAQ
 
 ### What is this in Codex terms?
@@ -543,7 +566,7 @@ No. It is an external agent skill, not an in-app Obsidian plugin. Your vault sta
 Yes, partially. The repo now targets Codex first, but still keeps a `_CLAUDE.md` compatibility mirror and optional Claude-specific PostCompact automation where available.
 
 ### How do I add this skill to Codex?
-Run the installer from the Install section. It clones the repo to `~/.codex/skills/obsidian-second-brain`. Then run the setup script with your vault path, open Codex in that vault, and ask for `/obsidian-init` or say “use obsidian-second-brain to initialize this vault.”
+Run the installer from the Install section. It clones the repo to `~/.codex/skills/obsidian-second-brain`, installs local wrapper commands under `~/.codex/bin`, then you run the setup script with your vault path. After that you can ask naturally, run `obsidian-init`, or call `scripts/run-command.sh /obsidian-init`.
 
 ### Does this work with Obsidian Sync?
 Yes. The skill writes to your vault as standard markdown files. Obsidian Sync, iCloud, Syncthing, and Git-based sync all work without modification.

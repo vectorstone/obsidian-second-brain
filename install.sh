@@ -19,6 +19,8 @@ install_codex() {
     ln -s "$SKILL_DIR" "$skill_link"
     echo "Codex skill linked at $skill_link"
   fi
+  chmod +x "$SKILL_DIR/scripts/run-command.sh" "$SKILL_DIR/scripts/install-codex-wrappers.sh"
+  "$SKILL_DIR/scripts/install-codex-wrappers.sh"
 }
 
 install_claude() {
@@ -92,7 +94,10 @@ echo "Done."
 if [[ "$TARGET_AGENT" == "codex" || "$TARGET_AGENT" == "both" ]]; then
   echo "Next steps for Codex:"
   echo "  1. Run: bash ~/.codex/skills/obsidian-second-brain/scripts/setup.sh \"/path/to/your/vault\""
-  echo "  2. Open Codex in that vault and ask for /obsidian-init or 'use obsidian-second-brain to initialize this vault'"
+  echo "  2. Open Codex in that vault and either:"
+  echo "     - ask naturally: 'use obsidian-second-brain to initialize this vault'"
+  echo "     - run a wrapper command directly: obsidian-init"
+  echo "     - or call the generic runner: ~/.codex/skills/obsidian-second-brain/scripts/run-command.sh /obsidian-init"
 fi
 if [[ "$TARGET_AGENT" == "claude" || "$TARGET_AGENT" == "both" ]]; then
   echo "Next steps for Claude:"

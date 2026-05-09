@@ -160,7 +160,9 @@ Done item:
 
 ## Codex usage note
 
-If the user types intents like `/obsidian-save`, `/obsidian-init`, `/obsidian-daily`, `/obsidian-ingest`, or `/research`, interpret them as requests to use the installed `obsidian-second-brain` skill and execute the matching workflow against this vault.
+If the user types intents like `/obsidian-save`, `/obsidian-init`, `/obsidian-daily`, `/obsidian-ingest`, `/research`, or `$obsidian-save`, `$obsidian-init`, `$obsidian-daily`, treat them as requests to use the installed `obsidian-second-brain` skill and execute the matching workflow against this vault.
+
+If local wrapper commands are installed, shell commands like `obsidian-init`, `obsidian-daily`, `x-read`, and `research` are also valid entrypoints for the same workflows.
 
 ---
 
